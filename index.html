@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexy Bio</title>
+    <link rel="stylesheet" href="test.css">
+</head>
+<body>
+
+    <!-- ==========================================
+         TOYLAND-STYLE PREMIUM NAVIGATION HEADER
+         ========================================== -->
+    <header class="main-header">
+        <div class="header-container">
+            <!-- Left: Brand Logo -->
+            <div class="logo-area">
+                <span class="logo-icon">⚡</span>
+                <span class="logo-text">Flexy<span class="highlight">Bio</span></span>
+            </div>
+
+            <!-- Middle: Capsule Search Bar -->
+            <div class="search-area">
+                <input type="text" placeholder="Search components, code, docs..." class="header-search">
+                <button class="search-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+
+            <!-- Right: User Actions -->
+            <div class="header-actions">
+                <!-- Click this to trigger login modal -->
+                <button class="action-btn" id="login-trigger-btn">
+                    <span class="icon">👤</span> My Account
+                </button>
+                <button class="action-btn active">
+                    <span class="icon">🛒</span> Console (0)
+                </button>
+            </div>
+        </div>
+
+        <!-- Category Navigation Bar -->
+        <nav class="category-nav">
+            <a href="#" class="nav-link active">AI Assistant</a>
+            <a href="#">Hardware Specs</a>
+            <a href="#">Circuit Schematics</a>
+            <a href="#">Microcontrollers</a>
+            <a href="#">System Logs</a>
+            <a href="#" class="promo-link">% Active Node %</a>
+        </nav>
+    </header>
+
+    <!-- Main Streamlined Chat Frame -->
+    <div class="flexy-container">
+        <main class="chatbot-view">
+            
+            <!-- Chat Status Area -->
+            <div class="chat-header">
+                <div class="bot-status">
+                    <div class="status-indicator online"></div>
+                    <div>
+                        <h2>Flexy_AI</h2>
+                        <p class="text-muted">Direct Neural Link // Active</p>
+                    </div>
+                </div>
+                <span class="badge-tag">LLAMA_3.3_CORE</span>
+            </div>
+
+            <!-- Chat Messages Area -->
+            <div class="chat-messages-container" id="chat-stream">
+                <div class="message-row bot">
+                    <img class="chat-avatar" src="https://img.icons8.com/neon/96/bot.png" alt="Flexy Avatar">
+                    <div class="message-bubble">
+                        System link successful. I am Flexy. Ask me about your electronics projects, microcontrollers, or system script layers!
+                    </div>
+                </div>
+            </div>
+
+            <!-- Input Form Dock -->
+            <div class="chat-input-area">
+                <form class="chat-form" id="chat-form">
+                    <input type="text" id="user-input" class="chat-input" placeholder="Inject message instruction..." autocomplete="off" required>
+                    <button type="submit" class="chat-send-btn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                    </button>
+                </form>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ==========================================
+         NEW ROUNDED LOGIN MODAL (OVERLAY)
+         ========================================== -->
+    <div class="login-modal-overlay" id="login-modal">
+        <div class="login-card">
+            <button class="close-modal-btn" id="close-modal-btn">&times;</button>
+            
+            <div class="login-header">
+                <h3>System Authorization</h3>
+                <p>Enter credentials to link database nodes</p>
+            </div>
+
+            <!-- Simple Login Form sending data to the Flask route -->
+            <form id="login-form">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" name="name" placeholder="Adem" required>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="adem@example.com" required>
+                </div>
+                <div class="input-group">
+                    <label>Authorization Access Code (or message)</label>
+                    <input type="text" name="message" placeholder="Optional security message" required>
+                </div>
+                <button type="submit" class="login-submit-btn">Authorize Node</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Interface Script Logic -->
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatStream = document.getElementById('chat-stream');
+        const botAvatarUrl = "https://img.icons8.com/neon/96/bot.png";
+
+        // Modal triggers
+        const loginTriggerBtn = document.getElementById('login-trigger-btn');
+        const loginModal = document.getElementById('login-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const loginForm = document.getElementById('login-form');
+
+        // Toggle Modal Open/Close
+        loginTriggerBtn.addEventListener('click', () => {
+            loginModal.classList.add('active');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            loginModal.classList.remove('active');
+        });
+
+        // Close modal if user clicks outside of the card box
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) {
+                loginModal.classList.remove('active');
+            }
+        });
+
+        // Submit the login details to the teacher's Python backend route
+        loginForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(loginForm);
+
+            try {
+                // Post to your teacher's save_user route
+                const response = await fetch('http://127.0.0.1:5000/save_user', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const textResult = await response.text();
+                alert(textResult); // Shows "Holaaaa cbon tb3athhh!"
+                loginModal.classList.remove('active');
+            } catch (error) {
+                alert("Database Offline: Could not submit security details.");
+            }
+        });
+
+        // Handle Chat form
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const messageText = userInput.value.trim();
+            if (!messageText) return;
+
+            appendMessage(messageText, 'user');
+            userInput.value = '';
+            chatStream.scrollTop = chatStream.scrollHeight;
+
+            try {
+                appendMessage("Generating matrix reply...", 'bot', 'loader');
+                chatStream.scrollTop = chatStream.scrollHeight;
+
+                const response = await fetch('http://127.0.0.1:5000/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: messageText })
+                });
+                
+                const data = await response.json();
+                document.getElementById('loader')?.remove();
+                appendMessage(data.reply, 'bot');
+            } catch (error) {
+                document.getElementById('loader')?.remove();
+                appendMessage("Interface Error: Server pipeline offline.", 'bot');
+            }
+            
+            chatStream.scrollTop = chatStream.scrollHeight;
+        });
+
+        function appendMessage(text, sender, id = '') {
+            const row = document.createElement('div');
+            row.className = `message-row ${sender}`;
+            if(id) row.id = id;
+
+            row.innerHTML = sender === 'bot' 
+                ? `<img class="chat-avatar" src="${botAvatarUrl}" alt="Flexy Avatar"><div class="message-bubble">${text}</div>`
+                : `<div class="message-bubble">${text}</div>`;
+
+            chatStream.appendChild(row);
+        }
+    </script>
+</body>
+</html>
