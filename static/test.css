@@ -367,3 +367,62 @@ body {
     cursor: pointer;
     margin-top: 8px;
 }
+
+/* ==========================================================================
+   MOBILE & APK NATIVE APP OPTIMIZATIONS
+   ========================================================================== */
+@media (max-width: 768px) {
+    /* 1. Prevent Phone Status Bar (Clock/Battery) Overlap */
+    .top-navbar {
+        padding-top: max(18px, env(safe-area-inset-top));
+        padding-bottom: 10px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .brand {
+        font-size: 18px;
+    }
+    
+    .account-link {
+        font-size: 12px;
+    }
+
+    .search-container {
+        display: none; /* Hidden on mobile to keep header clean */
+    }
+
+    .sub-navbar {
+        padding: 6px 16px;
+    }
+
+    /* 2. Full-Screen Edge-to-Edge Layout for Mobile */
+    .workspace-container {
+        padding: 0;
+        flex: 1;
+        display: flex;
+    }
+
+    .chat-card {
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .chat-messages {
+        padding: 12px;
+    }
+
+    .message-row {
+        max-width: 90%;
+    }
+
+    /* 3. Bottom spacing for Android navigation/gesture bar */
+    .chat-input-area {
+        padding: 10px 12px;
+        padding-bottom: max(12px, env(safe-area-inset-bottom));
+    }
+}
