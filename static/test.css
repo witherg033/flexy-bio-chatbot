@@ -1,16 +1,12 @@
-/* ==========================================================================
-   FLEXY_AI DARK THEME STYLES
-   ========================================================================== */
-
 :root {
-    --bg-dark: #12141a;
+    --bg-dark: #0f1117;
+    --header-bg: #161922;
     --card-bg: #1a1d26;
     --card-border: #2a2e3d;
     --accent-orange: #ffab00;
     --accent-hover: #ffd000;
     --text-main: #f0f2f5;
     --text-muted: #8b92a5;
-    --user-bubble: #ffab00;
     --bot-bubble: #242836;
 }
 
@@ -18,7 +14,7 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
 body {
@@ -26,37 +22,152 @@ body {
     color: var(--text-main);
     min-height: 100vh;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    flex-direction: column;
 }
 
-/* App Fullscreen Container */
-.app-viewport {
-    width: 100vw;
-    height: 100vh;
+/* --- TOP HEADER NAVBAR --- */
+.top-navbar {
+    background: var(--header-bg);
+    padding: 12px 30px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    padding: 20px;
+    border-bottom: 1px solid var(--card-border);
 }
 
-/* Centered Main Chat Card */
-.chat-card {
-    width: 100%;
-    max-width: 900px;
-    height: 90vh;
-    background: var(--card-bg);
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.brand-icon {
+    color: var(--accent-orange);
+    font-size: 22px;
+}
+
+.highlight {
+    color: var(--accent-orange);
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: #12141a;
     border: 1px solid var(--card-border);
     border-radius: 20px;
+    padding: 6px 14px;
+    width: 320px;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    color: var(--text-main);
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+}
+
+.search-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+.top-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.account-link {
+    background: none;
+    border: none;
+    color: var(--text-main);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.console-pill {
+    background: rgba(255, 171, 0, 0.15);
+    border: 1px solid var(--accent-orange);
+    color: var(--accent-orange);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* --- SUB NAVIGATION TAB BAR --- */
+.sub-navbar {
+    background: rgba(22, 25, 34, 0.6);
+    padding: 10px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.category-links {
+    display: flex;
+    gap: 12px;
+}
+
+.cat-link {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 15px;
+    transition: all 0.2s ease;
+}
+
+.cat-link.active {
+    background: var(--accent-orange);
+    color: #12141a;
+    font-weight: 700;
+}
+
+.cat-link:hover:not(.active) {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.node-status {
+    color: #00e676;
+    font-size: 12px;
+    font-family: monospace;
+}
+
+/* --- MAIN WORKSPACE AREA --- */
+.workspace-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+}
+
+.chat-card {
+    width: 100%;
+    max-width: 850px;
+    height: 70vh;
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
     overflow: hidden;
 }
 
-/* Integrated Top Bar */
 .chat-header {
-    padding: 18px 24px;
+    padding: 16px 20px;
     background: rgba(255, 255, 255, 0.02);
     border-bottom: 1px solid var(--card-border);
     display: flex;
@@ -67,36 +178,25 @@ body {
 .bot-info {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
 .status-indicator {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     background-color: #00e676;
     border-radius: 50%;
-    box-shadow: 0 0 10px #00e676;
+    box-shadow: 0 0 8px #00e676;
 }
 
 .bot-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: 0.5px;
-}
-
-.highlight {
-    color: var(--accent-orange);
 }
 
 .bot-subtext {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--text-muted);
-}
-
-.header-controls {
-    display: flex;
-    align-items: center;
-    gap: 12px;
 }
 
 .badge-tag {
@@ -104,42 +204,24 @@ body {
     color: var(--accent-orange);
     border: 1px solid rgba(255, 171, 0, 0.3);
     padding: 4px 10px;
-    border-radius: 20px;
+    border-radius: 15px;
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.5px;
 }
 
-.account-btn {
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--card-border);
-    color: var(--text-main);
-    padding: 6px 14px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 13px;
-    transition: all 0.2s ease;
-}
-
-.account-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: var(--accent-orange);
-}
-
-/* Chat Scroll Area */
 .chat-messages {
     flex: 1;
-    padding: 24px;
+    padding: 20px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 18px;
+    gap: 16px;
 }
 
 .message-row {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
+    gap: 10px;
     max-width: 80%;
 }
 
@@ -149,38 +231,35 @@ body {
 }
 
 .chat-avatar {
-    width: 38px;
-    height: 38px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     border: 2px solid var(--accent-orange);
     background: #000;
 }
 
 .message-bubble {
-    padding: 12px 18px;
-    border-radius: 16px;
+    padding: 12px 16px;
+    border-radius: 14px;
     font-size: 14px;
     line-height: 1.5;
-    word-break: break-word;
 }
 
 .message-row.bot .message-bubble {
     background-color: var(--bot-bubble);
     color: var(--text-main);
-    border-top-left-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-top-left-radius: 2px;
 }
 
 .message-row.user .message-bubble {
-    background-color: var(--user-bubble);
+    background-color: var(--accent-orange);
     color: #12141a;
     font-weight: 600;
-    border-top-right-radius: 4px;
+    border-top-right-radius: 2px;
 }
 
-/* Bottom Input Area */
 .chat-input-area {
-    padding: 16px 24px;
+    padding: 14px 20px;
     background: rgba(0, 0, 0, 0.2);
     border-top: 1px solid var(--card-border);
 }
@@ -194,12 +273,11 @@ body {
     flex: 1;
     background: #12141a;
     border: 1px solid var(--card-border);
-    border-radius: 30px;
-    padding: 12px 20px;
+    border-radius: 25px;
+    padding: 10px 18px;
     color: var(--text-main);
     font-size: 14px;
     outline: none;
-    transition: border-color 0.2s ease;
 }
 
 .chat-input:focus {
@@ -210,22 +288,16 @@ body {
     background: var(--accent-orange);
     color: #12141a;
     border: none;
-    width: 44px;
-    height: 44px;
+    width: 40px;
+    height: 40px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
-.chat-send-btn:hover {
-    background-color: var(--accent-hover);
-    transform: scale(1.05);
-}
-
-/* Authorization Modal Overlay */
+/* --- AUTHORIZATION MODAL --- */
 .login-modal-overlay {
     position: fixed;
     top: 0;
@@ -233,7 +305,7 @@ body {
     width: 100vw;
     height: 100vh;
     background: rgba(0, 0, 0, 0.7);
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(4px);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -250,77 +322,48 @@ body {
 .login-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    border-radius: 20px;
+    border-radius: 16px;
     width: 90%;
-    max-width: 400px;
-    padding: 28px;
+    max-width: 380px;
+    padding: 24px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
 }
 
 .close-modal-btn {
     position: absolute;
-    top: 16px;
-    right: 20px;
+    top: 14px;
+    right: 18px;
     background: none;
     border: none;
     color: var(--text-muted);
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
 }
 
-.close-modal-btn:hover {
-    color: var(--text-main);
-}
+.login-header h3 { font-size: 16px; margin-bottom: 4px; }
+.login-header p { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
 
-.login-header h3 {
-    font-size: 18px;
-    margin-bottom: 6px;
-}
-
-.login-header p {
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 20px;
-}
-
-.input-group {
-    margin-bottom: 14px;
-}
-
-.input-group label {
-    display: block;
-    font-size: 12px;
-    color: var(--text-muted);
-    margin-bottom: 6px;
-}
-
+.input-group { margin-bottom: 12px; }
+.input-group label { display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
 .input-group input {
     width: 100%;
     background: #12141a;
     border: 1px solid var(--card-border);
-    border-radius: 10px;
-    padding: 10px 14px;
+    border-radius: 8px;
+    padding: 8px 12px;
     color: var(--text-main);
     outline: none;
 }
-
-.input-group input:focus {
-    border-color: var(--accent-orange);
-}
+.input-group input:focus { border-color: var(--accent-orange); }
 
 .login-submit-btn {
     width: 100%;
     background: var(--accent-orange);
     color: #12141a;
     border: none;
-    padding: 12px;
-    border-radius: 10px;
+    padding: 10px;
+    border-radius: 8px;
     font-weight: 700;
     cursor: pointer;
-    margin-top: 10px;
-}
-
-.login-submit-btn:hover {
-    background: var(--accent-hover);
+    margin-top: 8px;
 }
