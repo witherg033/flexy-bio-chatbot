@@ -3,19 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexy AI Assistant</title>
-    <!-- Embedded Favicon to prevent 404 logs -->
+    <title>FlexyBio - Hardware & AI Interface</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
     <link rel="stylesheet" href="/static/test.css">
 </head>
 <body>
 
-    <!-- Dedicated Centered Chat Viewport -->
-    <div class="app-viewport">
-        <main class="chat-card">
+    <!-- Main Top Navigation Header -->
+    <header class="top-navbar">
+        <div class="brand">
+            <span class="brand-icon">⚡</span>
+            <span class="brand-name">Flexy<span class="highlight">Bio</span></span>
+        </div>
+
+        <div class="search-container">
+            <input type="text" placeholder="Search components, code, docs..." class="search-input">
+            <button class="search-btn">🔍</button>
+        </div>
+
+        <div class="top-nav-actions">
+            <button class="account-link" id="login-trigger-btn">👤 My Account</button>
+            <button class="console-pill">💼 Console (0)</button>
+        </div>
+    </header>
+
+    <!-- Sub-Header Category Navigation Bar -->
+    <nav class="sub-navbar">
+        <div class="category-links">
+            <a href="#" class="cat-link active">AI Assistant</a>
+            <a href="#" class="cat-link">Hardware Specs</a>
+            <a href="#" class="cat-link">Circuit Schematics</a>
+            <a href="#" class="cat-link">Microcontrollers</a>
+            <a href="#" class="cat-link">System Logs</a>
+        </div>
+        <div class="node-status">% Active Node %</div>
+    </nav>
+
+    <!-- Main Workspace Container -->
+    <main class="workspace-container">
+        <div class="chat-card">
             
-            <!-- Sleek Integrated Header -->
-            <header class="chat-header">
+            <!-- Chat Card Top Header -->
+            <div class="chat-header">
                 <div class="bot-info">
                     <span class="status-indicator"></span>
                     <div>
@@ -23,16 +52,10 @@
                         <p class="bot-subtext">Direct Neural Link // Active</p>
                     </div>
                 </div>
+                <span class="badge-tag">LLAMA_3.3_CORE</span>
+            </div>
 
-                <div class="header-controls">
-                    <span class="badge-tag">LLAMA_3.3_CORE</span>
-                    <button class="account-btn" id="login-trigger-btn" title="Authorization Account">
-                        👤 <span class="btn-text">Account</span>
-                    </button>
-                </div>
-            </header>
-
-            <!-- Chat Stream Area -->
+            <!-- Messages Stream Area -->
             <div class="chat-messages" id="chat-stream">
                 <div class="message-row bot">
                     <img class="chat-avatar" src="https://img.icons8.com/neon/96/bot.png" alt="Flexy Avatar">
@@ -42,12 +65,12 @@
                 </div>
             </div>
 
-            <!-- Bottom Dock Input -->
+            <!-- Input Bar Area -->
             <div class="chat-input-area">
                 <form class="chat-form" id="chat-form">
                     <input type="text" id="user-input" class="chat-input" placeholder="Inject message instruction..." autocomplete="off" required>
-                    <button type="submit" class="chat-send-btn" aria-label="Send Message">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <button type="submit" class="chat-send-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                             <line x1="22" y1="2" x2="11" y2="13"></line>
                             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                         </svg>
@@ -55,19 +78,17 @@
                 </form>
             </div>
 
-        </main>
-    </div>
+        </div>
+    </main>
 
-    <!-- Minimal Authorization Modal -->
+    <!-- Authorization Modal -->
     <div class="login-modal-overlay" id="login-modal">
         <div class="login-card">
             <button class="close-modal-btn" id="close-modal-btn">&times;</button>
-            
             <div class="login-header">
                 <h3>System Authorization</h3>
                 <p>Enter credentials to link database nodes</p>
             </div>
-
             <form id="login-form">
                 <div class="input-group">
                     <label>Username</label>
@@ -86,7 +107,7 @@
         </div>
     </div>
 
-    <!-- Script Logic -->
+    <!-- Interactive Script -->
     <script>
         const chatForm = document.getElementById('chat-form');
         const userInput = document.getElementById('user-input');
@@ -98,23 +119,17 @@
         const closeModalBtn = document.getElementById('close-modal-btn');
         const loginForm = document.getElementById('login-form');
 
-        // Modal Controls
         loginTriggerBtn.addEventListener('click', () => loginModal.classList.add('active'));
         closeModalBtn.addEventListener('click', () => loginModal.classList.remove('active'));
         loginModal.addEventListener('click', (e) => {
             if (e.target === loginModal) loginModal.classList.remove('active');
         });
 
-        // Login Submit
         loginForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(loginForm);
-
             try {
-                const response = await fetch('/save_user', {
-                    method: 'POST',
-                    body: formData
-                });
+                const response = await fetch('/save_user', { method: 'POST', body: formData });
                 const textResult = await response.text();
                 alert(textResult);
                 loginModal.classList.remove('active');
@@ -123,176 +138,6 @@
             }
         });
 
-        // Chat Form Handler
-        chatForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const messageText = userInput.value.trim();
-            if (!messageText) return;
-
-            appendMessage(messageText, 'user');
-            userInput.value = '';
-            chatStream.scrollTop = chatStream.scrollHeight;
-
-            try {
-                appendMessage("Generating matrix reply...", 'bot', 'loader');
-                chatStream.scrollTop = chatStream.scrollHeight;
-
-                const response = await fetch('/api/chat', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ message: messageText })
-                });
-                
-                const data = await response.json();
-                document.getElementById('loader')?.remove();
-                appendMessage(data.reply, 'bot');
-            } catch (error) {
-                document.getElementById('loader')?.remove();
-                appendMessage("Interface Error: Server pipeline offline.", 'bot');
-            }
-            
-            chatStream.scrollTop = chatStream.scrollHeight;
-        });
-
-        function appendMessage(text, sender, id = '') {
-            const row = document.createElement('div');
-            row.className = `message-row ${sender}`;
-            if(id) row.id = id;
-
-            row.innerHTML = sender === 'bot' 
-                ? `<img class="chat-avatar" src="${botAvatarUrl}" alt="Flexy Avatar"><div class="message-bubble">${text}</div>`
-                : `<div class="message-bubble">${text}</div>`;
-
-            chatStream.appendChild(row);
-        }
-    </script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flexy AI Assistant</title>
-    <!-- Embedded Favicon to prevent 404 logs -->
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-    <link rel="stylesheet" href="/static/test.css">
-</head>
-<body>
-
-    <!-- Dedicated Centered Chat Viewport -->
-    <div class="app-viewport">
-        <main class="chat-card">
-            
-            <!-- Sleek Integrated Header -->
-            <header class="chat-header">
-                <div class="bot-info">
-                    <span class="status-indicator"></span>
-                    <div>
-                        <h2 class="bot-title">Flexy<span class="highlight">_AI</span></h2>
-                        <p class="bot-subtext">Direct Neural Link // Active</p>
-                    </div>
-                </div>
-
-                <div class="header-controls">
-                    <span class="badge-tag">LLAMA_3.3_CORE</span>
-                    <button class="account-btn" id="login-trigger-btn" title="Authorization Account">
-                        👤 <span class="btn-text">Account</span>
-                    </button>
-                </div>
-            </header>
-
-            <!-- Chat Stream Area -->
-            <div class="chat-messages" id="chat-stream">
-                <div class="message-row bot">
-                    <img class="chat-avatar" src="https://img.icons8.com/neon/96/bot.png" alt="Flexy Avatar">
-                    <div class="message-bubble">
-                        System link successful. I am Flexy. Ask me about your electronics projects, microcontrollers, or system script layers!
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bottom Dock Input -->
-            <div class="chat-input-area">
-                <form class="chat-form" id="chat-form">
-                    <input type="text" id="user-input" class="chat-input" placeholder="Inject message instruction..." autocomplete="off" required>
-                    <button type="submit" class="chat-send-btn" aria-label="Send Message">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                        </svg>
-                    </button>
-                </form>
-            </div>
-
-        </main>
-    </div>
-
-    <!-- Minimal Authorization Modal -->
-    <div class="login-modal-overlay" id="login-modal">
-        <div class="login-card">
-            <button class="close-modal-btn" id="close-modal-btn">&times;</button>
-            
-            <div class="login-header">
-                <h3>System Authorization</h3>
-                <p>Enter credentials to link database nodes</p>
-            </div>
-
-            <form id="login-form">
-                <div class="input-group">
-                    <label>Username</label>
-                    <input type="text" name="name" placeholder="Adem" required>
-                </div>
-                <div class="input-group">
-                    <label>Email Address</label>
-                    <input type="email" name="email" placeholder="adem@example.com" required>
-                </div>
-                <div class="input-group">
-                    <label>Access Code / Note</label>
-                    <input type="text" name="message" placeholder="Optional security message" required>
-                </div>
-                <button type="submit" class="login-submit-btn">Authorize Node</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Script Logic -->
-    <script>
-        const chatForm = document.getElementById('chat-form');
-        const userInput = document.getElementById('user-input');
-        const chatStream = document.getElementById('chat-stream');
-        const botAvatarUrl = "https://img.icons8.com/neon/96/bot.png";
-
-        const loginTriggerBtn = document.getElementById('login-trigger-btn');
-        const loginModal = document.getElementById('login-modal');
-        const closeModalBtn = document.getElementById('close-modal-btn');
-        const loginForm = document.getElementById('login-form');
-
-        // Modal Controls
-        loginTriggerBtn.addEventListener('click', () => loginModal.classList.add('active'));
-        closeModalBtn.addEventListener('click', () => loginModal.classList.remove('active'));
-        loginModal.addEventListener('click', (e) => {
-            if (e.target === loginModal) loginModal.classList.remove('active');
-        });
-
-        // Login Submit
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const formData = new FormData(loginForm);
-
-            try {
-                const response = await fetch('/save_user', {
-                    method: 'POST',
-                    body: formData
-                });
-                const textResult = await response.text();
-                alert(textResult);
-                loginModal.classList.remove('active');
-            } catch (error) {
-                alert("Database Offline: Could not submit security details.");
-            }
-        });
-
-        // Chat Form Handler
         chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const messageText = userInput.value.trim();
