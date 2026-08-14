@@ -73,6 +73,17 @@ def save_user():
     except Exception as e:
         print(f"Database Error: {e}")
         return f"Error: Could not save data. {str(e)}", 400
+@app.route("/save_user", methods=["POST"])
+def save_user():
+    name = request.form.get("name")
+    email = request.form.get("email")
+    message = request.form.get("message")
+
+    new_user = User(name=name, email=email, message=message)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return "Holaaaa cbon tb3athhh!"    
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
