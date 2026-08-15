@@ -44,8 +44,18 @@ def chat():
         if not user_message:
             return jsonify({'reply': 'No message provided'}), 400
 
+        # Define system context for your AI
+        system_instruction = (
+            "You are Flexy_AI, an intelligent assistant created for the FlexyBio platform. "
+            "Adem Ayech is your creator and lead developer, who works on electronics, "
+            "microcontroller projects, robotics, and web application development."
+        )
+
         chat_completion = client.chat.completions.create(
-            messages=[{"role": "user", "content": user_message}],
+            messages=[
+                {"role": "system", "content": system_instruction},
+                {"role": "user", "content": user_message}
+            ],
             model="llama-3.3-70b-versatile",
         )
 
